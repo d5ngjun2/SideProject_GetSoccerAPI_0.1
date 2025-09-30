@@ -3,13 +3,16 @@ import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
 import Main from "./pages/Main";
+import Header from "./layout/Header";
+import Footer from "./layout/Footer";
+import Layout from "./layout/Layout";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <>
-      <Main></Main>
+      <Layout>
+        <Main />
+      </Layout>
     </>
   );
 }
