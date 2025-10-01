@@ -49,10 +49,10 @@ application.properties 또는 .env 파일에서 DB 계정/비밀번호, DB 이�
 
 ### 디렉토리 구조
 
-project-root/
-├─ backend/ # Spring Boot 백엔드
-├─ frontend/ # React + Vite 프론트엔드
-├─ README.md
+project-root/ <br />
+├─ backend/ # Spring Boot 백엔드 <br />
+├─ frontend/ # React + Vite 프론트엔드 <br />
+├─ README.md <br />
 └─ 기타 설정 파일
 
 ### 주의사항
