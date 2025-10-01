@@ -1,17 +1,19 @@
 import React from "react";
 import styled from "styled-components";
+import useUserStore from "../store/useStore";
 
 // Header 컴포넌트
 const Header = () => {
+  const { user, isLogin } = useUserStore();
   return (
     <HeaderContainer>
       <Logo>
-        <a href="/">⚽ 축잘알</a>
+        <a href="/">⚽ SideProject</a>
       </Logo>
       <Nav>
         <ul>
           <li>
-            <a href="/news">뉴스</a>
+            <a href="/standings">리그 순위</a>
           </li>
           <li>
             <a href="/schedule">경기 일정</a>
@@ -25,21 +27,36 @@ const Header = () => {
           <li>
             <a href="/community">커뮤니티</a>
           </li>
+          <li>
+            {isLogin ? (
+              <span>{user.userName}님 환영합니다!</span>
+            ) : (
+              <a href="/login">로그인</a>
+            )}
+          </li>
+          <li>
+            {isLogin ? (
+              <a href="/logout">로그아웃</a>
+            ) : (
+              <span>
+                <a href="/signup">회원가입</a>
+              </span>
+            )}
+          </li>
         </ul>
       </Nav>
     </HeaderContainer>
   );
 };
 
-// 1. styled-components를 사용하여 스타일링된 Header 컨테이너 생성
 const HeaderContainer = styled.header`
   background-color: #ffffff; /* 흰색 바탕 */
   width: 100%;
-  padding: 15px 30px; /* 상하 15px, 좌우 30px 패딩 */
+  padding: 15px 270px;
   box-shadow:
-    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 4px 4px -1px rgba(0, 0, 0, 0.1),
     0 2px 4px -2px rgba(0, 0, 0, 0.06);
-  position: sticky; /* 상단 고정 (스크롤 시에도 유지) */
+  position: fixed; /* 상단 고정 (스크롤 시에도 유지) */
   top: 0;
   z-index: 1000; /* 다른 콘텐츠 위에 표시 */
   display: flex;
@@ -47,7 +64,6 @@ const HeaderContainer = styled.header`
   align-items: center;
 `;
 
-// 2. 로고 영역 스타일링 (예시)
 const Logo = styled.h1`
   font-size: 24px;
   color: #000000; /* 축구 관련 색상 (예: 짙은 녹색) */
@@ -58,22 +74,21 @@ const Logo = styled.h1`
   & a {
     text-decoration: none;
     color: inherit;
+    font-weight: 700;
   }
 `;
 
-// 3. 네비게이션 메뉴 스타일링 (예시)
 const Nav = styled.nav`
   ul {
     list-style: none;
     margin: 0;
     padding: 0;
     display: flex;
-    gap: 20px; /* 메뉴 항목 사이 간격 */
   }
 
   li {
-    font-size: 16px;
-    font-weight: 500;
+    font-size: 15px;
+    font-weight: 700;
   }
 
   a {
@@ -81,9 +96,10 @@ const Nav = styled.nav`
     color: #333333; /* 링크 색상 */
     padding: 5px 10px;
     transition: color 0.3s ease;
+    font-weight: 700;
 
     &:hover {
-      color: #ff5722; /* 마우스 오버 시 강조 색상 (예: 주황색) */
+      color: #0059ff; /* 마우스 오버 시 강조 색상 (예: 주황색) */
     }
   }
 `;

@@ -22,12 +22,26 @@ public class SoccerApiController {
         토큰 키 : ccea26264fe842fb8f97e7940309faf3
      */
 
-    // 리그 순위
-    @GetMapping("/standings")
-    public ResponseEntity<String> getStandingsApi() {
+    // epl 리그 순위
+    @GetMapping("/standings/pl")
+    public ResponseEntity<String> getPlStandingsApi() {
         RestTemplate re = new RestTemplate();
         RequestEntity<Void> req = RequestEntity
                 .get("http://api.football-data.org/v4/competitions/PL/standings")
+                .header("X-Auth-Token", "ccea26264fe842fb8f97e7940309faf3")
+                .build();
+
+        ResponseEntity<String> res = re.exchange(req, String.class);
+
+        return ResponseEntity.ok(res.getBody());
+    }
+
+    // Primera 리그 순위
+    @GetMapping("/standings/pd")
+    public ResponseEntity<String> getLaligaStandingsApi() {
+        RestTemplate re = new RestTemplate();
+        RequestEntity<Void> req = RequestEntity
+                .get("http://api.football-data.org/v4/competitions/PD/standings")
                 .header("X-Auth-Token", "ccea26264fe842fb8f97e7940309faf3")
                 .build();
 

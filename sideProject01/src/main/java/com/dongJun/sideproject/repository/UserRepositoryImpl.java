@@ -1,0 +1,27 @@
+package com.dongJun.sideproject.repository;
+
+import com.dongJun.sideproject.dto.UserDto;
+import com.dongJun.sideproject.entity.User;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
+
+@Repository
+public class UserRepositoryImpl implements UserRepository{
+
+    @PersistenceContext
+    private EntityManager em;
+
+
+    @Override
+    public Optional<User> findByUserId(String userId) {
+        User user = em.createQuery("SELECT u FROM User u WHERE u.userId = :userId", User.class)
+                .setParameter("userId", userId)
+                .getResultStream()
+                .findFirst()
+                .orElse(null);
+        return Optional.ofNullable(user);
+    }
+}
