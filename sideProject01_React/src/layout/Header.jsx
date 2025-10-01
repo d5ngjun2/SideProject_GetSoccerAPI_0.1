@@ -18,12 +18,12 @@ const Header = () => {
           <li>
             <a href="/matches">경기 기록</a>
           </li>
-          <li>
+          {/* <li>
             <a href="/teams">팀</a>
-          </li>
-          <li>
+          </li> */}
+          {/* <li>
             <a href="/players">선수</a>
-          </li>
+          </li> */}
           <li>
             <a href="/community">커뮤니티</a>
           </li>
