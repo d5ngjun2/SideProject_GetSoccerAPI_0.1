@@ -16,7 +16,7 @@ const Header = () => {
             <a href="/standings">리그 순위</a>
           </li>
           <li>
-            <a href="/schedule">경기 일정</a>
+            <a href="/matches">경기 기록</a>
           </li>
           <li>
             <a href="/teams">팀</a>

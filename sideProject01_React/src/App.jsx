@@ -6,9 +6,9 @@ import FootBallStandings from "./pages/FootBallStandings";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import { ToastContainer } from "react-toastify";
+import Matches from "./pages/Matches";
 
 function App() {
-  
   return (
     <BrowserRouter>
       <ToastContainer position="top-right" autoClose={3000} />
@@ -17,6 +17,7 @@ function App() {
           <Route path="/" element={<Main />} />
           <Route path="/standings" element={<FootBallStandings />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/matches" element={<Matches />} />
         </Route>
       </Routes>
     </BrowserRouter>

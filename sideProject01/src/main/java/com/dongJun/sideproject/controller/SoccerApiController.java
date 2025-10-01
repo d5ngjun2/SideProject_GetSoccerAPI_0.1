@@ -49,4 +49,28 @@ public class SoccerApiController {
 
         return ResponseEntity.ok(res.getBody());
     }
+
+    // 경기 기록
+    @GetMapping("/matches")
+    public ResponseEntity<String> getMatchesApi() {
+        RestTemplate restTemplate = new RestTemplate();
+
+        // ✅ 경기 API (예: 프리미어리그 경기 기록)
+        // dateFrom, dateTo, status 등의 파라미터도 붙일 수 있음
+        String url = "http://api.football-data.org/v4/competitions/PL/matches"
+                + "?dateFrom=2025-09-01"
+                + "&dateTo=2025-09-30"
+                + "&status=FINISHED";
+
+        RequestEntity<Void> request = RequestEntity
+                .get(url)
+                .header("X-Auth-Token", "ccea26264fe842fb8f97e7940309faf3")
+                .build();
+
+        ResponseEntity<String> response = restTemplate.exchange(request, String.class);
+        System.out.println(response.getBody());
+
+        return ResponseEntity.ok(response.getBody());
+    }
+
 }

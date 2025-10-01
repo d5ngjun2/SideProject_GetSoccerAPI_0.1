@@ -8,14 +8,12 @@ const FootBallStandings = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Spring Boot API 호출
     const getStandings = async () => {
       try {
         const [pl, laliga] = await Promise.all([
           soccerService.getPlStandings(),
           soccerService.getPdStandings(),
         ]);
-        console.log(pl, laliga);
         setStandings({ pl, laliga });
       } catch (err) {
         setError(err.message);
@@ -28,83 +26,133 @@ const FootBallStandings = () => {
     getStandings();
   }, []);
 
-  if (loading) return <div>데이터 로딩 중...</div>;
-  if (error) return <div>에러 발생: {error}</div>;
-  return (
-    <MainContainer>
-      <Card>
-        <h2>25-26 프리미어 리그 순위</h2>
-        {standings?.pl.standings?.map((table, idx) => (
-          <div key={idx}>
-            <h2>{table.type}</h2>
-            <ul>
-              {table.table.map((team) => (
-                <li key={team.team.id}>
-                  {team.position}. {team.team.name} - {team.points} pts
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </Card>
+  if (loading) return <Container>데이터 로딩 중...</Container>;
+  if (error)
+    return <Container style={{ color: "red" }}>에러 발생: {error}</Container>;
 
-      <Card>
-        <h2>25-26 라리가 리그 순위</h2>
-        {standings?.laliga.standings?.map((table, idx) => (
-          <div key={idx}>
-            <h2>{table.type}</h2>
-            <ul>
-              {table.table.map((team) => (
-                <li key={team.team.id}>
-                  {team.position}. {team.team.name} - {team.points} pts
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </Card>
-    </MainContainer>
+  const renderTable = (tableData) => {
+    return tableData?.standings?.map((table, idx) => (
+      <TableSection key={idx}>
+        <TableTitle>{table.type}</TableTitle>
+        <TableList>
+          {table.table.map((team) => (
+            <TeamRow key={team.team.id}>
+              <Position>{team.position}.</Position>
+              <TeamLogo src={team.team.crest} alt={team.team.name} />
+              <TeamName>{team.team.name}</TeamName>
+              <Points>{team.points} pts</Points>
+            </TeamRow>
+          ))}
+        </TableList>
+      </TableSection>
+    ));
+  };
+
+  return (
+    <Container>
+      <LeagueCard>
+        <h2>25-26 프리미어 리그 순위</h2>
+        {renderTable(standings.pl)}
+      </LeagueCard>
+
+      <LeagueCard>
+        <h2>25-26 라리가 순위</h2>
+        {renderTable(standings.laliga)}
+      </LeagueCard>
+    </Container>
   );
 };
 
-const MainContainer = styled.div`
-  width: 80%;
-  min-height: 100vh;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  margin: 0 auto;
-  margin-top: 100px;
-  margin-bottom: 40px;
-  flex-wrap: wrap;
-  background-color: #ffffff;
+const Container = styled.div`
+  width: 90%;
+  max-width: 1300px;
+  margin: 100px auto 50px;
   display: flex;
-  border-radius: 8px;
-  border: 1px solid #e0e0e0;
-  color: #333333;
+  flex-wrap: wrap;
+  align-items: center;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  gap: 30px;
 `;
 
-const Card = styled.div`
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  width: 800px;
-  height: auto;
-  margin: 20px;
+const LeagueCard = styled.div`
+  background-color: #ffffff;
+  border-radius: 12px;
+  width: calc(50% - 20px);
+  max-width: 850px;
+  padding: 30px 30px 20px 30px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+  }
+
   h2 {
-    margin-bottom: 20px;
-    color: #000000;
-    border-bottom: 2px solid #000000;
+    margin-bottom: 25px;
+    color: #0077ff;
+    border-bottom: 2px solid #0077ff;
     padding-bottom: 10px;
   }
-  ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+`;
+
+const TableSection = styled.div`
+  margin-bottom: 20px;
+`;
+
+const TableTitle = styled.h3`
+  margin-bottom: 10px;
+  color: #004bb5;
+  font-weight: 600;
+`;
+
+const TableList = styled.ul`
+  list-style: none;
+  padding: 0;
+  margin: 0 auto; /* ul 자체를 가운데로 */
+  display: flex;
+  flex-direction: column; /* 세로로 쌓이게 */
+  align-items: center; /* li 중앙 정렬 */
+  width: 100%; /* 필요 시 max-width로 제한 가능 */
+  max-width: 500px;
+`;
+
+const TeamRow = styled.li`
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* 좌우 공간 균등 */
+  padding: 10px 15px;
+  border-radius: 6px;
+  margin-bottom: 5px;
+  background-color: #e8f2ffaa;
+  width: 100%; /* ul width 기준 */
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: #e0f0ff;
   }
-  li {
-    padding: 10px 0;
-    border-bottom: 1px solid #e0e0e0;
-  }
+`;
+
+const Position = styled.span`
+  width: 30px;
+  font-weight: bold;
+  color: #004bb5;
+`;
+
+const TeamLogo = styled.img`
+  width: 30px;
+  height: 30px;
+`;
+
+const TeamName = styled.span`
+  flex: 1;
+`;
+
+const Points = styled.span`
+  font-weight: bold;
+  color: #0077ff;
 `;
 
 export default FootBallStandings;

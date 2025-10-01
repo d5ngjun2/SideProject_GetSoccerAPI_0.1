@@ -1,5 +1,5 @@
-import { API_ENDPOINTS } from "./config";
 import axios from "axios";
+import { API_ENDPOINTS } from "./config";
 
 export const soccerService = {
     getPlStandings: async () => {
@@ -17,5 +17,16 @@ export const soccerService = {
         } catch (error) {
             console.error("순위 불러오기 실패", error);
         }
-    }
+    },
+    getMatches: async () => {
+        try {
+        const response = await axios.get(API_ENDPOINTS.SOCCER.MATCHES);
+    return response.data;
+  } catch (error) {
+    console.error("경기 정보 불러오기 실패", error);
+    throw error;
+  }
+}
+
+
 }
