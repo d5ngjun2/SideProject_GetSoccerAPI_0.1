@@ -24,4 +24,9 @@ public class UserRepositoryImpl implements UserRepository{
                 .orElse(null);
         return Optional.ofNullable(user);
     }
+
+    @Override
+    public void save(User user) {
+        em.persist(user);
+    }
 }

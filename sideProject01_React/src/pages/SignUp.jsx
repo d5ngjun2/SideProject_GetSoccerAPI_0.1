@@ -1,0 +1,232 @@
+import React from "react";
+import styled from "styled-components";
+import * as yup from "yup";
+import useSignUpForm from "../hooks/useSignUpForm";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { userService } from "../api/users";
+import { toast } from "react-toastify";
+
+const SignUp = () => {
+  const { signUpSchema } = useSignUpForm();
+  const navigate = useNavigate();
+
+  const [isCapsLockOn, setIsCapsLockOn] = useState(false);
+
+  const checkCapsLock = (event) => {
+    const isCapsLockOn = event.getModifierState("CapsLock");
+    setIsCapsLockOn(isCapsLockOn);
+  };
+
+  const handleSignUp = async (data) => {
+    try {
+      const response = await userService.signUp(
+        data.id,
+        data.password,
+        data.name,
+        data.email
+      );
+      navigate("/login");
+      toast.success("회원가입이 완료되었습니다! 로그인 페이지로 이동합니다.");
+      return response.data;
+    } catch (error) {
+      console.error("SignUp error:", error);
+      toast.error("회원가입에 실패했습니다. 다시 시도해주세요.");
+    }
+  };
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(signUpSchema),
+  });
+
+  return (
+    <MainContent>
+      <SignUpContent onSubmit={handleSubmit(handleSignUp)}>
+        <h2>회원가입</h2>
+        <InputWrapper>
+          <Label>아이디</Label>
+          <FormInput
+            {...register("id")}
+            type="text"
+            id="id"
+            placeholder="아이디를 입력해주세요."
+            onKeyUp={(ev) => checkCapsLock(ev)}
+          />
+          <ErrorText>{errors.id?.message}</ErrorText>
+        </InputWrapper>
+        <InputWrapper>
+          <Label>이름</Label>
+          <FormInput
+            {...register("name")}
+            type="text"
+            id="name"
+            placeholder="이름을 입력해주세요."
+            onKeyUp={(ev) => checkCapsLock(ev)}
+          />
+          <ErrorText>{errors.name?.message}</ErrorText>
+        </InputWrapper>
+        <InputWrapper>
+          <Label>비밀번호</Label>
+          <FormInput
+            {...register("password")}
+            type="password"
+            id="password"
+            placeholder="비밀번호를 입력해주세요."
+            onKeyUp={(ev) => checkCapsLock(ev)}
+          />
+          <ErrorText>{errors.password?.message}</ErrorText>
+        </InputWrapper>
+        <InputWrapper>
+          <Label>비밀번호 확인</Label>
+          <FormInput
+            {...register("confirmPassword")}
+            type="password"
+            placeholder="비밀번호를 다시 입력해주세요."
+            id="confirmPassword"
+            onKeyUp={(ev) => checkCapsLock(ev)}
+          />
+          <ErrorText>{errors.confirmPassword?.message}</ErrorText>
+        </InputWrapper>
+        <InputWrapper>
+          <Label>이메일</Label>
+          <FormInput
+            {...register("email")}
+            type="email"
+            id="email"
+            placeholder="이메일을 입력해주세요."
+            onKeyUp={(ev) => checkCapsLock(ev)}
+          />
+          <ErrorText>{errors.email?.message}</ErrorText>
+        </InputWrapper>
+        <CapsLockWarning>
+          {isCapsLockOn ? "Caps Lock이 켜져 있습니다." : ""}
+        </CapsLockWarning>
+
+        <ButtonGroup>
+          <SignUpButton type="submit">회원가입</SignUpButton>
+          <NoAccount>계정이 이미 있으신가요?</NoAccount>
+        </ButtonGroup>
+      </SignUpContent>
+    </MainContent>
+  );
+};
+
+const MainContent = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* 화면 높이에 맞춰 중앙 정렬 */
+  width: 100%;
+  background-color: #ffffff;
+  box-sizing: border-box;
+`;
+
+const InputWrapper = styled.div`
+  margin-bottom: 20px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`;
+
+const Label = styled.p`
+  margin: 10px 10px 1px 0;
+  font-weight: bold;
+  text-align: left;
+  width: 80%;
+  align-items: center;
+`;
+
+const FormInput = styled.input`
+  width: 80%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 2px solid #dfdfdf;
+  display: block;
+  margin: 0 0 12px 0;
+  justify-content: center;
+  align-items: center;
+
+  &:focus {
+    border-color: #a3a3a3;
+    outline: none;
+  }
+`;
+
+const SignUpButton = styled.button`
+  width: 100%;
+  margin: 2px 0;
+  justify-content: center;
+  align-items: center;
+  background-color: #000000;
+  color: white;
+  border-radius: 5px;
+  border: none;
+
+  &:hover {
+    background-color: #363636;
+    border: none;
+  }
+`;
+
+const ButtonGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  width: 83%;
+`;
+
+const CapsLockWarning = styled.p`
+  margin: 0;
+  padding: 0;
+  color: #000000;
+  font-size: 12px;
+  margin-bottom: 10px;
+`;
+
+const NoAccount = styled.p`
+  margin: 10px 0;
+  font-size: 14px;
+  color: #888888;
+  text-decoration: underline;
+  cursor: pointer;
+
+  &:hover {
+    color: #000000;
+  }
+`;
+
+const SignUpContent = styled.form`
+  width: 90%; /* 화면 비율에 맞춰 늘어나도록 */
+  max-width: 700px; /* 최대 700px 고정 */
+  height: auto; /* 내용에 맞게 늘어나도록 */
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  padding: 40px 20px; /* 여백 추가 */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const ErrorText = styled.p`
+  color: red;
+  font-size: 12px;
+  width: 80%;
+  margin-top: -8px;
+  margin-bottom: 8px;
+  text-align: left;
+`;
+
+export default SignUp;

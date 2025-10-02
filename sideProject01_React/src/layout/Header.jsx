@@ -4,7 +4,12 @@ import useUserStore from "../store/useStore";
 
 // Header 컴포넌트
 const Header = () => {
-  const { user, isLogin } = useUserStore();
+  const { isLogin, user } = useUserStore();
+
+  const handleLogout = () => () => {
+    useUserStore.getState().logout();
+    window.location.href = "/"; // 로그아웃 후 메인 페이지로 이동
+  };
   return (
     <HeaderContainer>
       <Logo>
@@ -14,29 +19,38 @@ const Header = () => {
         <ul>
           <li>
             <a href="/standings">리그 순위</a>
+            <ul>
+              <li>
+                <a href="/standings/pl">EPL</a>
+              </li>
+              <li>
+                <a href="/standings/pd">LALIGA</a>
+              </li>
+            </ul>
           </li>
           <li>
             <a href="/matches">경기 기록</a>
           </li>
-          {/* <li>
-            <a href="/teams">팀</a>
-          </li> */}
-          {/* <li>
-            <a href="/players">선수</a>
-          </li> */}
           <li>
             <a href="/community">커뮤니티</a>
           </li>
           <li>
             {isLogin ? (
-              <span>{user.userName}님 환영합니다!</span>
+              <>
+                <a href="/#">{user.userName}님 환영합니다!</a>
+                <ul>
+                  <li>
+                    <a href="/mypage">마이페이지</a>
+                  </li>
+                </ul>
+              </>
             ) : (
               <a href="/login">로그인</a>
             )}
           </li>
           <li>
             {isLogin ? (
-              <a href="/logout">로그아웃</a>
+              <a onClick={handleLogout()}>로그아웃</a>
             ) : (
               <span>
                 <a href="/signup">회원가입</a>
@@ -89,6 +103,7 @@ const Nav = styled.nav`
   li {
     font-size: 15px;
     font-weight: 700;
+    position: relative;
   }
 
   a {
@@ -101,6 +116,52 @@ const Nav = styled.nav`
     &:hover {
       color: #0059ff; /* 마우스 오버 시 강조 색상 (예: 주황색) */
     }
+  }
+
+  li ul {
+    display: block;
+    position: absolute; /* 부모 li 기준 위치 */
+    top: 100%; /* li 바로 아래 */
+    left: 0;
+    background: #fff;
+    border-radius: 6px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+    list-style: none;
+    margin: 0;
+    padding: 8px 0;
+    min-width: 140px;
+
+    visibility: hidden; /* 기본 숨김 */
+    opacity: 0;
+    transform: translateY(-6px);
+    transition:
+      opacity 0.2s ease,
+      transform 0.2s ease;
+    pointer-events: none; /* 숨겨진 상태에서 클릭 방지 */
+    z-index: 100;
+  }
+
+  /* hover 시 서브메뉴 보이기 */
+  li:hover > ul {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  /* 서브메뉴 li 스타일 */
+  li ul li {
+    padding: 8px 16px;
+    white-space: nowrap;
+  }
+
+  li ul li:hover {
+    background: #f5f7ff;
+  }
+
+  li ul li a {
+    color: #333;
+    display: block;
   }
 `;
 

@@ -29,4 +29,10 @@ public class UserController {
             return ResponseEntity.status(401).build();
         }
     }
+
+    @PostMapping("/signup")
+    public ResponseEntity<String> signUp(@RequestBody UserDto dto){
+        String result = userService.signUp(dto);
+        return ResponseEntity.ok(result);
+    }
 }

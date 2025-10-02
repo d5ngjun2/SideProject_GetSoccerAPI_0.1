@@ -55,8 +55,6 @@ public class SoccerApiController {
     public ResponseEntity<String> getMatchesApi() {
         RestTemplate restTemplate = new RestTemplate();
 
-        // ✅ 경기 API (예: 프리미어리그 경기 기록)
-        // dateFrom, dateTo, status 등의 파라미터도 붙일 수 있음
         String url = "http://api.football-data.org/v4/competitions/PL/matches"
                 + "?dateFrom=2025-09-01"
                 + "&dateTo=2025-09-30"

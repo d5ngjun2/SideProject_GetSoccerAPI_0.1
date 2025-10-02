@@ -9,4 +9,6 @@ public interface UserService {
 
 
     User login(String userId, String userPwd);
+
+    String signUp(UserDto dto);
 }
