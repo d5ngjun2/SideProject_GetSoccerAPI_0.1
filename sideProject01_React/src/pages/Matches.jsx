@@ -73,7 +73,7 @@ const Matches = () => {
 
   return (
     <Container>
-      <Title>프리미어리그 경기 기록 (2025년 9월)</Title>
+      <Title>프리미어리그 경기 기록 (2025년 10월)</Title>
       <SubTitle>총 {matches.length} 건의 경기가 조회되었습니다.</SubTitle>
       <SubTitle>Ctrl+F 로 원하는 팀을 검색해보세요!</SubTitle>
       <MatchesGrid>

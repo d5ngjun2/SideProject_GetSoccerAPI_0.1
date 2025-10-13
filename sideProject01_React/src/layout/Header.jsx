@@ -1,15 +1,20 @@
 import React from "react";
 import styled from "styled-components";
 import useUserStore from "../store/useStore";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 // Header 컴포넌트
 const Header = () => {
   const { isLogin, user } = useUserStore();
+  const navigate = useNavigate();
 
   const handleLogout = () => () => {
     useUserStore.getState().logout();
-    window.location.href = "/"; // 로그아웃 후 메인 페이지로 이동
+    toast.info("로그아웃 되었습니다.");
+    navigate("/login");
   };
+
   return (
     <HeaderContainer>
       <Logo>

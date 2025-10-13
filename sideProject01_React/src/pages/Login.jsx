@@ -6,6 +6,7 @@ import { IoMdLogIn } from "react-icons/io";
 import { userService } from "../api/users";
 import { toast } from "react-toastify";
 import useUserStore from "../store/useStore";
+import kakaoLoginImg from "../images/kakao_login_medium_narrow.png";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -73,6 +74,11 @@ const Login = () => {
           <LoginButton type="submit" onClick={(ev) => handleLogin(ev)}>
             로그인
           </LoginButton>
+          <ButtonSmallGroup>
+            <KakaoLoginBtn />
+            <KakaoLoginBtn />
+          </ButtonSmallGroup>
+
           <NoAccount>비밀번호를 잊으셨나요?</NoAccount>
         </ButtonGroup>
       </LoginContent>
@@ -201,6 +207,34 @@ const LoginContent = styled.form`
   @media (min-width: 769px) and (max-width: 1024px) {
     width: 85%;
     min-height: 65vh;
+  }
+`;
+
+const ButtonSmallGroup = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+`;
+
+const KakaoLoginBtn = styled.button`
+  background-image: url(${kakaoLoginImg});
+  display: flex;
+  width: 180px;
+  height: 48px;
+  background-size: cover;
+  background-position: center;
+  border: none;
+  cursor: pointer;
+  margin: 10px 0;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.2s;
+
+  &:hover {
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.15);
   }
 `;
 

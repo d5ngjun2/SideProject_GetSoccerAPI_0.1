@@ -9,7 +9,7 @@ const Layout = () => {
     <>
       <Header />
       <main>
-        <Outlet /> {/* 여기에 자식 Route 컴포넌트가 렌더링됨 */}
+        <Outlet />
       </main>
       <Footer />
     </>

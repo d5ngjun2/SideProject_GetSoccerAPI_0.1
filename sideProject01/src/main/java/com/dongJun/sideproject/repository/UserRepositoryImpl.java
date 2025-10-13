@@ -4,11 +4,14 @@ import com.dongJun.sideproject.dto.UserDto;
 import com.dongJun.sideproject.entity.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
+@Transactional
 public class UserRepositoryImpl implements UserRepository{
 
     @PersistenceContext
@@ -28,5 +31,13 @@ public class UserRepositoryImpl implements UserRepository{
     @Override
     public void save(User user) {
         em.persist(user);
+    }
+
+    @Override
+    public void updateUser(UserDto userDto) {
+        User user = em.find(User.class, userDto.getUserNo());
+        if (user != null){
+            user.updateUserInfo(userDto.getUserName(), userDto.getEmail());
+        }
     }
 }

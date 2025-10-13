@@ -11,6 +11,7 @@ export const API_ENDPOINTS = {
     },
     USER: {
         LOGIN : `${BASE_URL}api/user/login`,
-        SIGNUP : `${BASE_URL}api/user/signup`
+        SIGNUP : `${BASE_URL}api/user/signup`,
+        UPDATE : `${BASE_URL}api/user/update`
     }
 };

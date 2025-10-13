@@ -23,7 +23,6 @@ public class User {
     @Column(name = "USER_ID", length = 30, unique = true, nullable = false)
     private String userId;
 
-
     @Column(name = "USER_PWD", nullable = false)
     private String userPwd;
 
@@ -32,4 +31,19 @@ public class User {
 
     @Column(name = "USER_NAME", nullable = false)
     private String userName;
+
+    @Column(name = "ENROLL_DATE", nullable = false)
+    private LocalDate enrollDate;
+
+    @PrePersist
+    public void prePersist(){
+        if (this.enrollDate == null) {
+            this.enrollDate = LocalDate.now();
+        }
+    }
+
+    public void updateUserInfo(String userName, String email) {
+        this.userName = userName;
+        this.email = email;
+    }
 }

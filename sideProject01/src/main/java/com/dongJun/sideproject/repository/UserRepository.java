@@ -9,5 +9,7 @@ public interface UserRepository {
 
     Optional<User> findByUserId(String userId);
 
-    void save(User user);
+    void save(User user);;
+
+    void updateUser(UserDto userDto);
 }

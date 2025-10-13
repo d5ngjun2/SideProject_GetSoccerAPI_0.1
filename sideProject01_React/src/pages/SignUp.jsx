@@ -110,7 +110,9 @@ const SignUp = () => {
 
         <ButtonGroup>
           <SignUpButton type="submit">회원가입</SignUpButton>
-          <NoAccount>계정이 이미 있으신가요?</NoAccount>
+          <NoAccount onClick={() => navigate("/login")}>
+            계정이 이미 있으신가요?
+          </NoAccount>
         </ButtonGroup>
       </SignUpContent>
     </MainContent>

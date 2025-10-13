@@ -10,6 +10,7 @@ import Matches from "./pages/Matches";
 import PlStandings from "./pages/PlStandings";
 import PdStandings from "./pages/PdStandings";
 import SignUp from "./pages/SignUp";
+import MyPage from "./pages/MyPage";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/matches" element={<Matches />} />
+          <Route path="/mypage" element={<MyPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

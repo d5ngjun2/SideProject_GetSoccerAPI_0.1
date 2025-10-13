@@ -35,4 +35,10 @@ public class UserController {
         String result = userService.signUp(dto);
         return ResponseEntity.ok(result);
     }
+
+    @PatchMapping("/update")
+    public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto){
+        UserDto updateUser = userService.updateUser(userDto);
+        return ResponseEntity.ok(updateUser);
+    }
 }

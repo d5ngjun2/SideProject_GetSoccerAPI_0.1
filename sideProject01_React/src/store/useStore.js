@@ -10,7 +10,7 @@ const useUserStore = create(
             logout : () => set({ user: null, isLogin: false }),
         }),
         {
-            name: 'user-storage', // 로컬스토리지에 저장될 키 이름
+            name: 'user-storage', 
             storage: createJSONStorage(() => sessionStorage),
         }
     )

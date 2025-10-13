@@ -33,4 +33,11 @@ public class UserServiceImpl implements UserService{
         return user.getUserId();
     }
 
+    @Override
+    public UserDto updateUser(UserDto userDto) {
+        userRepository.updateUser(userDto);
+        return userDto;
+    }
+
+
 }

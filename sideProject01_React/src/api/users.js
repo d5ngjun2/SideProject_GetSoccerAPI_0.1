@@ -22,5 +22,15 @@ export const userService = {
             console.error("회원가입 실패", error);
             throw error;
         }
+    },
+    update : async (userNo, userName, email) => {
+        try {
+            const requestBody = { userNo, userName, email };
+            const response = await axios.patch(API_ENDPOINTS.USER.UPDATE, requestBody);
+            return response.data;
+        } catch (error) {
+            console.error("회원정보 수정 실패", error);
+            throw error;
+        }  
     }
 };
